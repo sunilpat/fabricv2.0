@@ -1,0 +1,29 @@
+orderer.com:
+   container_name: ${CONTAINER_NAME}
+   image: "hyperledger/fabric-orderer:2.1"
+   environment:
+     - FABRIC_CA_CLIENT_HOME=/var/hyperledger/orderer
+     - FABRIC_CA_CLIENT_TLS_CERTFILES=/data/crypto-config/ordererOrganizations/${ORDERNAME}.com/ca/ca.${ORDERNAME}.com-cert.pem
+     - ENROLLMENT_URL=https://orderer.com:orderer.compw@${HOSTIP}:7058
+     - ORDERER_HOME=/var/hyperledger/orderer
+     - ORDERER_HOST=${ORDERNAME}.com
+     - ORDERER_GENERAL_LISTENADDRESS=0.0.0.0
+     - ORDERER_GENERAL_GENESISMETHOD=file
+     - ORDERER_GENERAL_GENESISFILE=/data/genesis.block
+     - ORDERER_GENERAL_LOCALMSPID=ordererMSP
+     - ORDERER_GENERAL_LOCALMSPDIR=/var/hyperledger/orderer/msp
+     - ORDERER_GENERAL_TLS_ENABLED=true
+     - ORDERER_GENERAL_TLS_PRIVATEKEY=/var/hyperledger/orderer/tls/server.key
+     - ORDERER_GENERAL_TLS_CERTIFICATE=/var/hyperledger/orderer/tls/server.crt
+     - ORDERER_GENERAL_TLS_ROOTCAS=[/data/crypto-config/ordererOrganizations/${ORDERNAME}.com/ca/ca.${ORDERNAME}.com-cert.pem]
+     - ORDERER_GENERAL_LOGLEVEL=debug
+     - ORDERER_DEBUG_BROADCASTTRACEDIR=data/logs
+     - ORDERER=${ORDERNAME}
+     - DOMAIN=${ORDERNAME}.com
+   command: /bin/sh -c '/scripts/start-orderer.sh 2>&1 | tee /data/logs/${ORDERNAME}.com.log';
+   volumes:
+     - /opt/hyper/docker-compose/orderer/script:/scripts
+     - /opt/hyper/data:/data
+   ports:
+     - ${USEPORT}:7050
+   

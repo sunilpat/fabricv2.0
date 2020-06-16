@@ -1,0 +1,19 @@
+export CORE_PEER_TLS_ROOTCERT_FILE=/data/crypto-config/peerOrganizations/org1.com/ca/ca.org1.com-cert.pem  
+export CORE_PEER_TLS_CLIENTCERT_FILE=/data/crypto-config/peerOrganizations/org1.com/peers/peer0.org1.com/tls/server.crt
+  
+export CORE_PEER_TLS_CLIENTKEY_FILE=/data/crypto-config/peerOrganizations/org1.com/peers/peer0.org1.com/tls/server.key
+ 
+export CORE_PEER_PROFILE_ENABLED=true
+   
+export FABRIC_CA_CLIENT_HOME=/data/crypto-config/peerOrganizations/org1.com/users/Admin@org1.com
+export FABRIC_CA_CLIENT_TLS_CERTFILES=/data/crypto-config/peerOrganizations/org1.com/ca/ca.org1.com-cert.pem
+export CORE_PEER_MSPCONFIGPATH=/data/crypto-config/peerOrganizations/org1.com/users/Admin@org1.com/msp
+export CORE_PEER_LOCALMSPID=org1MSP
+
+
+
+export FABRIC_CA_CLIENT=/opt/gopath/src/github.com/hyperledger/fabric/peer/tls
+
+peer channel create --logging-level=DEBUG -c mychannel --outputBlock /data/genesis.block -f /data/channel.tx -o 192.168.1.205:7050   --cafile /data/crypto-config/ordererOrganizations/orderer.com/ca/ca.orderer.com-cert.pem  --tls --clientauth --keyfile /data/crypto-config/peerOrganizations/org1.com/peers/peer0.org1.com/tls/server.key --certfile /data/crypto-config/peerOrganizations/org1.com/peers/peer0.org1.com/tls/server.crt
+ 
+

@@ -1,0 +1,11 @@
+setup:
+   container_name: ${PROJECT_NAME}_setup
+   image: "hyperledger/fabric-tools:2.0"
+   command: /bin/bash -c '/scripts/fabric-setup.sh 2>&1 | tee /data/logs/setup.log; sleep 99999'
+   environment:
+     - COMPOSE_PROJECT_NAME=${PROJECT_NAME}
+   volumes:
+     - /opt/hyper/docker-compose/fabric_ca/script:/scripts
+     - /opt/hyper/data:/data
+
+    

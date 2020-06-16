@@ -1,0 +1,13 @@
+run:
+   container_name: runtest
+   image: "hyperledger/fabric-tools:2.0"
+   command: /bin/bash -c '/scripts/run.sh 2>&1 | tee /data/logs/run.log; sleep 99999'
+   environment:
+     - COMPOSE_PROJECT_NAME=${PROJECT_NAME}
+   volumes:
+     - /opt/hyper/docker-compose/test_run_ca/script:/scripts
+     - /opt/hyper/data:/data
+     - /opt/hyper/fabric-samples:/opt/gopath/src/github.com/hyperledger/fabric-samples
+     - /opt/gopath/src/github.com/hyperledger/fabric:/opt/gopath/src/github.com/hyperledger/fabric
+
+    

@@ -1,0 +1,21 @@
+ca.orderer.com:
+   container_name: ${CONTAINER_NAME}
+   image: "hyperledger/fabric-ca:1.4.6"
+   command: /bin/bash -c '/scripts/root-ca.sh 2>&1 | tee /data/logs/ca.${ORDERNAME}.com.log;'
+   environment:
+     - FABRIC_CA_SERVER_HOME=/etc/hyperledger/fabric-ca
+     - FABRIC_CA_SERVER_TLS_ENABLED=true
+     - FABRIC_CA_SERVER_CSR_CN=ca.${ORDERNAME}.com
+     - FABRIC_CA_SERVER_CSR_HOSTS=${HOSTIP}
+     - FABRIC_CA_SERVER_DEBUG=true
+     - BOOTSTRAP_USER_PASS=admin:adminpw
+     - TARGET=/data/crypto-config/ordererOrganizations/${ORDERNAME}.com/ca
+     - TLSTARGET=/data/crypto-config/ordererOrganizations/${ORDERNAME}.com/tlsca
+     - TARGET_CERTFILE=/data/crypto-config/ordererOrganizations/${ORDERNAME}.com/ca/ca.${ORDERNAME}.com-cert.pem
+     - FABRIC_ORGS=orderer org1 org2
+   volumes:
+     - /opt/hyper/docker-compose/ca_orderer/script:/scripts
+     - /opt/hyper/data:/data
+   ports:
+     - ${USEPORT}:7054
+

@@ -1,0 +1,190 @@
+Introduction
+
+In this guide, you will see the process for setting up a blockchain network that includes two organizations,
+each with two peers and an orderer.
+
+Prerequisites
+
+Creating blockchain required below software
+1. Docker Version:19.03.7
+2. Docker-compose version 1.23.1
+3. After installing Docker and docker-compose
+   Download hyperleader fabric images
+
+   1. Open terminal and run below command for download images
+
+   > curl -sSL https://bit.ly/2ysbOFE | bash -s
+
+
+Blockchain Setup
+
+
+Step 1: Setup Orderer Org CA
+
+  1. Set below value in .env
+   Path:&{PWD}/docker-compose/ca_orderer/.env
+
+   CONTAINER_NAME=ca.orderer.com
+   ORDERNAME=orderer
+   USEPORT=7058
+   HOSTIP=<IP>
+
+   2. Also change service name in docker-compose.yaml
+
+   3. for setup Orderer Org CA open terminal in path &{PWD}/docker-compose/ca_orderer/
+   
+    run > sudo docker-compose up -d
+  
+Step 2: Setup Org1’s CA
+   1. Set below value in .env
+   Path:&{PWD}/docker-compose/ca_org/.env
+
+   CONTAINER_NAME=ca.org1.com
+   ORGNAME=org1
+   USEPORT=7055
+   HOSTIP=<IP>
+
+   2. Also change service name in docker-compose.yaml
+
+   3. for setup  Org CA open terminal in path &{PWD}/docker-compose/ca_org/
+   
+    run > sudo docker-compose up -d
+
+Step 3: Setup Org2’s CA
+   1. Set below value in .env
+   Path:&{PWD}/docker-compose/ca_org/.env
+
+   CONTAINER_NAME=ca.org2.com
+   ORGNAME=org2
+   USEPORT=7056
+   HOSTIP=<IP>
+
+   2. Also change service name in docker-compose.yaml
+
+   3. for setup  Org CA open terminal in path &{PWD}/docker-compose/ca_org/
+   
+    run > sudo docker-compose up -d
+
+Step 4: Fabric setup(enroll and registration peer and orderer)
+ 
+     step 1. In env.sh add DOMAIN name
+     step 2. In env.sh add PEER_ORGS
+
+     For enroll and registration peer and orderer
+     open terminal in path &{PWD}/docker-compose/fabric_ca/
+     
+     run > sudo docker-compose up -d
+
+
+Step 5: Setup Orderer
+   1. Set below value in .env
+   Path:&{PWD}/docker-compose/orderer/.env
+
+   CONTAINER_NAME=orderer.com
+   ORGNAME=orderer
+   USEPORT=7050
+   HOSTIP=<IP>
+   2. Also change service name in docker-compose.yaml
+
+   3. for setup oderer open terminal in path &{PWD}/docker-compose/orderer/
+   
+    run > sudo docker-compose up -d
+
+Step 6: Setup peer0 for each org1
+
+   1. Set below value in .env
+   Path:&{PWD}/docker-compose/peer/.env
+
+   CONTAINERNAME=peer0.org1.com
+   CONTAINERCOUCHDB=couchdb_peer0_org1
+   ORGG=org1
+   PEER=peer0
+   USEPORT=7051
+   EXTERNALENDPOINT=192.168.1.205:7051
+   BOOTSTRAP=192.168.1.205:7051
+   ASSIGN_PORT=5984
+   HOSTIP=<ip>
+   ORDERERORGHOSTIP=<org1_ip>
+
+   2. Also change service name , ENROLLMENT_URL org1 port and CORE_PEER_ADDRESS = 0.0.0.0:7051 in docker-compose.yaml
+
+   3. for setup oderer open terminal in path &{PWD}/docker-compose/peer/
+   
+    run > sudo docker-compose up -d
+
+Step 7: Setup peer1 for each org1
+
+   1. Set below value in .env
+   Path:&{PWD}/docker-compose/peer/.env
+
+   CONTAINERNAME=peer1.org1.com
+   CONTAINERCOUCHDB=couchdb_peer1_org1
+   ORGG=org1
+   PEER=peer1
+   USEPORT=7052
+   EXTERNALENDPOINT=192.168.1.205:7052
+   BOOTSTRAP=192.168.1.205:7051
+   ASSIGN_PORT=5985
+   HOSTIP=<ip>
+   ORDERERORGHOSTIP=<org1_ip>
+
+   2. Also change service name , ENROLLMENT_URL org1 port and CORE_PEER_ADDRESS = 0.0.0.0:7052 in docker-compose.yaml
+
+   3. for setup oderer open terminal in path &{PWD}/docker-compose/peer/
+   
+    run > sudo docker-compose up -d
+
+Step 8: Setup peer0 for each org2
+
+   1. Set below value in .env
+   Path:&{PWD}/docker-compose/peer/.env
+
+   CONTAINERNAME=peer0.org2.com
+   CONTAINERCOUCHDB=couchdb_peer0_org2
+   ORGG=org2
+   PEER=peer0
+   USEPORT=7053
+   EXTERNALENDPOINT=192.168.1.205:7053
+   BOOTSTRAP=192.168.1.205:7053
+   ASSIGN_PORT=5986
+   HOSTIP=<ip>
+   ORDERERORGHOSTIP=<org2_ip>
+
+   2. Also change service name , ENROLLMENT_URL org1 port and CORE_PEER_ADDRESS = 0.0.0.0:7053 in docker-compose.yaml
+
+   3. for setup oderer open terminal in path &{PWD}/docker-compose/peer/
+   
+    run > sudo docker-compose up -d
+
+Step 9: Setup peer1 for each org2
+
+   1. Set below value in .env
+   Path:&{PWD}/docker-compose/peer/.env
+
+   CONTAINERNAME=peer1.org2.com
+   CONTAINERCOUCHDB=couchdb_peer1_org2
+   ORGG=org2
+   PEER=peer1
+   USEPORT=7054
+   EXTERNALENDPOINT=192.168.1.205:7054
+   BOOTSTRAP=192.168.1.205:7053
+   ASSIGN_PORT=5987
+   HOSTIP=<ip>
+   ORDERERORGHOSTIP=<org2_ip>
+
+   2. Also change service name , ENROLLMENT_URL org1 port and CORE_PEER_ADDRESS = 0.0.0.0:7054 in docker-compose.yaml
+
+   3. for setup oderer open terminal in path &{PWD}/docker-compose/peer/
+   
+    run > sudo docker-compose up -d
+
+
+Versioning
+
+
+
+
+
+
+
+
