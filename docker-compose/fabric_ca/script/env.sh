@@ -17,8 +17,13 @@ NETWORK=fabric-ca
 # Names of the orderer organizations
 ORDERER_ORGS="orderer"
 
+HOSTORDERER="192.168.1.205:7058"
+
 # Names of the peer organizations
 PEER_ORGS="org1 org2"
+
+HOSTORG="192.168.1.205:7055 192.168.1.205:7056"
+
 
 # Number of peers in each peer organization
 NUM_PEERS=2
@@ -98,7 +103,7 @@ function initOrdererOrgVars {
    fi
    ORG=$1
    ORG_CONTAINER_NAME=${ORG//./-}
-   DOMAIN=orderer.com
+   DOMAIN=${ORG}.com
    ROOT_CA_HOST=ca.${DOMAIN}
    ROOT_CA_NAME=ca.${DOMAIN}
    ROOT_CA_LOGFILE=$LOGDIR/${ROOT_CA_NAME}.log
@@ -193,7 +198,7 @@ function initOrdererVars {
       exit 1
    fi
    initOrdererOrgVars $1
-   DOMAIN=orderer.com
+   DOMAIN=${ORG}.com
    ORDERER_HOST=${DOMAIN}
    ORDERER_NAME=${DOMAIN}
    ORDERER_PASS=${ORDERER_NAME}pw

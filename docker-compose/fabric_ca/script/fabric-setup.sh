@@ -40,7 +40,10 @@ function enrollIdentities {
 # Register any identities associated with the orderer
 function registerOrdererIdentities {
    initOrdererOrgVars $ORDERER_ORGS
-   HOST=192.168.1.205:7058
+   IFS=', ' read -r -a ORDERERS <<< "$HOSTORDERER"
+   #HOST=192.168.1.205:7058
+
+   HOST=${ORDERERS[0]}
    enrollCAAdmin $HOST
    initOrdererVars $ORDERER_ORGS
    log "Registering $ORDERER_NAME with $CA_NAME"
@@ -53,10 +56,13 @@ function registerOrdererIdentities {
 
 # Register any identities associated with a peer
 function registerPeerIdentities {
-     PORT=7055
+     #PORT=7055
+     ORGCOUNT=0
      for ORG in $PEER_ORGS; do
       initPeerOrgVars $ORG
-      HOST=192.168.1.205:$((PORT++))
+      IFS=', ' read -r -a ORGS <<< "$HOSTORG"
+      #HOST=192.168.1.205:$((PORT++))
+      HOST=${ORGS[$((ORGCOUNT++))]}
       enrollCAAdmin $HOST
       local COUNT=1
       while [[ "$COUNT" -le $NUM_PEERS ]]; do
@@ -77,7 +83,9 @@ function enrollOrdererIdentities {
    log "Getting CA certificates ..."
    for ORG in $ORDERER_ORGS; do
       initOrdererOrgVars $ORG
-      HOST=192.168.1.205:7058
+      IFS=', ' read -r -a ORDERERS <<< "$HOSTORDERER"
+      HOST=${ORDERERS[0]}
+      #HOST=192.168.1.205:7058
       log "Getting CA certs for organization $ORG and storing in $ORG_MSP_DIR"
       export FABRIC_CA_CLIENT_TLS_CERTFILES=$CA_CHAINFILE
       #fabric-ca-client getcacert -d -u https://$CA_HOST:7054 -M $ORG_MSP_DIR
@@ -95,10 +103,13 @@ function enrollOrdererIdentities {
 
 function enrollPeerIdentities {
    log "Getting CA certificates ..."
-   PORT=7055
+   #PORT=7055
+   ORGCOUNT=0
    for ORG in $PEER_ORGS; do
       initPeerOrgVars $ORG
-      HOST=192.168.1.205:$((PORT++))
+      #HOST=192.168.1.205:$((PORT++))
+      IFS=', ' read -r -a ORGS <<< "$HOSTORG"
+      HOST=${ORGS[$((ORGCOUNT++))]}
       log "Getting CA certs for organization $ORG and storing in $ORG_MSP_DIR"
       export FABRIC_CA_CLIENT_TLS_CERTFILES=$CA_CHAINFILE
       #fabric-ca-client getcacert -d -u https://$CA_HOST:7054 -M $ORG_MSP_DIR
