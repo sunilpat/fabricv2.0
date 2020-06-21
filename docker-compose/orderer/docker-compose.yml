@@ -4,9 +4,9 @@ orderer.com:
    environment:
      - FABRIC_CA_CLIENT_HOME=/var/hyperledger/orderer
      - FABRIC_CA_CLIENT_TLS_CERTFILES=/data/crypto-config/ordererOrganizations/${ORDERNAME}.com/ca/ca.${ORDERNAME}.com-cert.pem
-     - ENROLLMENT_URL=https://orderer.com:orderer.compw@${HOSTIP}:7058
+     - ENROLLMENT_URL=${ENROLLMENTCAURL}
      - ORDERER_HOME=/var/hyperledger/orderer
-     - ORDERER_HOST=${ORDERNAME}.com
+     - ORDERER_HOST=${ORDERERHOST}
      - ORDERER_GENERAL_LISTENADDRESS=0.0.0.0
      - ORDERER_GENERAL_GENESISMETHOD=file
      - ORDERER_GENERAL_GENESISFILE=/data/genesis.block

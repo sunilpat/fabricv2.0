@@ -8,8 +8,8 @@ set -e
 
 
 # Enroll to get orderer's TLS cert (using the "tls" profile)
-#fabric-ca-client enroll -d --enrollment.profile tls -u $ENROLLMENT_URL -M /tmp/tls --csr.hosts $ORDERER_HOST
-fabric-ca-client enroll -d --enrollment.profile tls -u $ENROLLMENT_URL -M /tmp/tls --csr.hosts 192.168.1.205
+fabric-ca-client enroll -d --enrollment.profile tls -u $ENROLLMENT_URL -M /tmp/tls --csr.hosts $ORDERER_HOST
+
 # Copy the TLS key and cert to the appropriate place
 TLSDIR=$ORDERER_HOME/tls
 mkdir -p $TLSDIR

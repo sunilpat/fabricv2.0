@@ -14,7 +14,7 @@ peer1.org2.com:
     environment:
       - FABRIC_CA_CLIENT_HOME=/opt/gopath/src/github.com/hyperledger/fabric/peer
       - FABRIC_CA_CLIENT_TLS_CERTFILES=/data/crypto-config/peerOrganizations/${ORGG}.com/ca/ca.${ORGG}.com-cert.pem
-      - ENROLLMENT_URL=https://admin:adminpw@${ORDERERORGHOSTIP}:7056
+      - ENROLLMENT_URL=${ENROLLMENTURL}
       - PEER_NAME=${PEER}.${ORGG}.com
       - PEER_HOME=/opt/gopath/src/github.com/hyperledger/fabric/peer
       - PEER_HOST=${HOSTIP}
@@ -23,7 +23,7 @@ peer1.org2.com:
       - PEER=${PEER}
       - DOMAIN=${ORGG}.com
       - CORE_PEER_ID=${PEER}.${ORGG}.com
-      - CORE_PEER_ADDRESS=0.0.0.0:7054
+      - CORE_PEER_ADDRESS=${COREPEERADDRESS}
       - CORE_PEER_LOCALMSPID=${ORGG}MSP
       - CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/msp
       - CORE_VM_ENDPOINT=unix:///host/var/run/docker.sock

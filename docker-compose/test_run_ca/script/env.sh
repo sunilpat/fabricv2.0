@@ -242,8 +242,8 @@ function initPeerVars {
    # the following setting starts chaincode containers on the same
    # bridge network as the peers
    # https://docs.docker.com/compose/networking/
-   #export CORE_VM_DOCKER_HOSTCONFIG_NETWORKMODE=${COMPOSE_PROJECT_NAME}_${NETWORK}
-   export CORE_VM_DOCKER_HOSTCONFIG_NETWORKMODE=net_${NETWORK}
+   # export CORE_VM_DOCKER_HOSTCONFIG_NETWORKMODE=${COMPOSE_PROJECT_NAME}_${NETWORK}
+   # export CORE_VM_DOCKER_HOSTCONFIG_NETWORKMODE=net_${NETWORK}
    # export CORE_LOGGING_LEVEL=ERROR
    export CORE_LOGGING_LEVEL=DEBUG
    export CORE_PEER_TLS_ENABLED=true

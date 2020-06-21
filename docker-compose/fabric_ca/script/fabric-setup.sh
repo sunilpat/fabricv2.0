@@ -39,29 +39,31 @@ function enrollIdentities {
 
 # Register any identities associated with the orderer
 function registerOrdererIdentities {
+  for ORG in $ORDERER_ORGS; do
    initOrdererOrgVars $ORDERER_ORGS
    IFS=', ' read -r -a ORDERERS <<< "$HOSTORDERER"
-   #HOST=192.168.1.205:7058
-
    HOST=${ORDERERS[0]}
    enrollCAAdmin $HOST
-   initOrdererVars $ORDERER_ORGS
-   log "Registering $ORDERER_NAME with $CA_NAME"
-  set -x
-   fabric-ca-client register -d --id.name $ORDERER_NAME --id.secret $ORDERER_PASS --id.type orderer
-   log "Registering admin identity with $CA_NAME"
+   local COUNT=1
+   while [[ "$COUNT" -le $NUM_ORDERERS ]]; do
+     initOrdererVars $ORDERER_ORGS
+     log "Registering $ORDERER_NAME with $CA_NAME"
+    set -x
+     fabric-ca-client register -d --id.name $ORDERER_NAME --id.secret $ORDERER_PASS --id.type orderer
+     COUNT=$((COUNT+1))
+   done
+    log "Registering admin identity with $CA_NAME"
    # The admin identity has the "admin" attribute which is added to ECert by default
    fabric-ca-client register -d --id.name $ADMIN_NAME --id.secret $ADMIN_PASS --id.attrs "admin=true:ecert"
+ done
 }
 
 # Register any identities associated with a peer
 function registerPeerIdentities {
-     #PORT=7055
      ORGCOUNT=0
      for ORG in $PEER_ORGS; do
       initPeerOrgVars $ORG
       IFS=', ' read -r -a ORGS <<< "$HOSTORG"
-      #HOST=192.168.1.205:$((PORT++))
       HOST=${ORGS[$((ORGCOUNT++))]}
       enrollCAAdmin $HOST
       local COUNT=1
@@ -85,7 +87,6 @@ function enrollOrdererIdentities {
       initOrdererOrgVars $ORG
       IFS=', ' read -r -a ORDERERS <<< "$HOSTORDERER"
       HOST=${ORDERERS[0]}
-      #HOST=192.168.1.205:7058
       log "Getting CA certs for organization $ORG and storing in $ORG_MSP_DIR"
       export FABRIC_CA_CLIENT_TLS_CERTFILES=$CA_CHAINFILE
       #fabric-ca-client getcacert -d -u https://$CA_HOST:7054 -M $ORG_MSP_DIR
